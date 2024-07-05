@@ -24,8 +24,9 @@ install: build
 	@install -Dm644 lib${pname}.so ${libdir}
 	@install -Dm644 lib/include/fmalloc.h ${includedir}
 
-test:
+test: install
 	@${CC} -o ${pname}-test ${CFLAGS} -I${includedir} -L${libdir} -lmylloc src/main.c
+	@gdb ./${pname}-test
 
 uninstall:
 	@rm ${libdir}/lib${pname}.so
