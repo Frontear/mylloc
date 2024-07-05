@@ -1,17 +1,13 @@
-#include <fcntl.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/mman.h>
-
 #include <fmalloc.h>
+#include <stdio.h>
 
 int main(void) {
-    int *p = fmalloc(sizeof(int));
+    int *p = malloc(sizeof(int));
 
     *p = 12345;
     printf("%d\n", *p);
 
-    ffree(p);
+    free(p);
 
     return 0;
 }

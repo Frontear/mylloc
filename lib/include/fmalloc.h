@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-void* fmalloc(size_t);
-void ffree(void*);
+void *malloc(size_t);
+void free(void *);
 
 #endif
