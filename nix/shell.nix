@@ -15,5 +15,6 @@ pkgs.mkShell {
     man-pages
   ];
 
-  CFLAGS = "-ggdb"; # use a better gdb debugging flag
+  CFLAGS = "-ggdb";
+  hardeningDisable = [ "all" ];
 }
