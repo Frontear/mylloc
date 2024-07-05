@@ -1,6 +1,7 @@
 {
   stdenv,
   lib,
+  gnumake
 }:
 let
   inherit (lib) cleanSource;
@@ -10,18 +11,9 @@ in stdenv.mkDerivation (finalAttrs: {
 
   src = cleanSource ../.;
 
-  dontConfigure = true;
-
-  buildPhase = ''
-    $CC -fpic -shared -o lib$pname.so $src/lib/fmalloc.c
-  '';
-
-  installPhase = ''
-    mkdir -p $out/lib
-
-    install -Dm644 lib$pname.so $out/lib
-    cp -R $src/lib/include $out
-  '';
+  nativeBuildInputs = [
+    gnumake
+  ];
 
   meta = with lib; {
     description = "Simple custom implementation of `malloc(3)` for educational purposes.";
