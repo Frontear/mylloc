@@ -11,6 +11,9 @@ in
 }:
 pkgs.mkShell {
   packages = with pkgs; [
+    gdb
     man-pages
   ];
+
+  CFLAGS = "-ggdb"; # use a better gdb debugging flag
 }

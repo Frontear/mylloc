@@ -5,7 +5,7 @@ prefix ?= ${out}
 libdir ?= ${prefix}/lib
 includedir ?= ${prefix}/include
 
-CFLAGS ?= -ggdb
+CFLAGS ?= -g
 CFLAGS += -fPIC -shared
 
 .PHONY: all build clean install uninstall
