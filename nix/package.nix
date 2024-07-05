@@ -2,20 +2,25 @@
   stdenv,
   lib,
 }:
-stdenv.mkDerivation (finalAttrs: {
+let
+  inherit (lib) cleanSource;
+in stdenv.mkDerivation (finalAttrs: {
   pname = "mylloc";
   version = "0.1.0";
 
-  src = lib.cleanSource ../.;
+  src = cleanSource ../.;
+
+  dontConfigure = true;
 
   buildPhase = ''
-    $CC -I$src/lib/include -o $pname $(find $src/lib -maxdepth 1 -type f -printf "%p ") $src/src/main.c
+    $CC -fpic -shared -o lib$pname.so $src/lib/fmalloc.c
   '';
 
   installPhase = ''
-    mkdir -p $out/bin
+    mkdir -p $out/lib
 
-    install -Dm755 $pname $out/bin
+    install -Dm644 lib$pname.so $out/lib
+    cp -R $src/lib/include $out
   '';
 
   meta = with lib; {
@@ -23,6 +28,5 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://github.com/Frontear/mylloc";
     license = licenses.gpl2;
     maintainers = with maintainers; [ frontear ];
-    mainProgram = finalAttrs.pname;
   };
 })
