@@ -6,10 +6,10 @@ stdenv.mkDerivation (finalAttrs: {
   pname = "mylloc";
   version = "0.1.0";
 
-  src = lib.cleanSource ../src;
+  src = lib.cleanSource ../.;
 
   buildPhase = ''
-    $CC -o $pname $src/main.c
+    $CC -I$src/lib/include -o $pname $(find $src/lib -maxdepth 1 -type f -printf "%p ") $src/src/main.c
   '';
 
   installPhase = ''

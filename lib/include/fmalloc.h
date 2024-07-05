@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-void* fmalloc(size_t size);
-void ffree(void *addr);
+void* fmalloc(size_t);
+void ffree(void*);
 
 #endif
