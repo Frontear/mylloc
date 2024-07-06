@@ -5,20 +5,22 @@
 #include <sys/mman.h>
 
 typedef struct {
-    size_t size;
-} blk_hdr;
+    size_t block_size;
+} meta;
 
 void *malloc(size_t size) {
-    blk_hdr hdr = { .size = size };
-    void *buff = mmap(NULL, sizeof(blk_hdr) + size, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-    *((blk_hdr*) buff) = hdr;
+    size_t block_size = sizeof(meta) + size; // TODO: alignment?
+    meta *block = mmap(NULL, block_size, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 
-    return (buff += sizeof(blk_hdr));
+    block->block_size = block_size;
+    block += sizeof(meta);
+
+    return block;
 }
 
 void free(void *buff) {
-    buff -= sizeof(blk_hdr);
-    blk_hdr hdr = *((blk_hdr*) buff);
+    buff -= sizeof(meta);
+    meta *block = buff;
 
-    munmap(buff, hdr.size);
+    munmap(buff, block->block_size);
 }
