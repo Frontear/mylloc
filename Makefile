@@ -9,7 +9,7 @@ CFLAGS ?= -g
 
 .PHONY: all build clean install test uninstall
 
-all: build install
+all: install
 
 build:
 	@${CC} -o lib${pname}.so ${CFLAGS} -fPIC -shared lib/fmalloc.c
@@ -28,6 +28,6 @@ test: install
 	@${CC} -o ${pname}-test ${CFLAGS} -I${includedir} -L${libdir} -lmylloc src/main.c
 	@gdb ./${pname}-test
 
-uninstall:
+uninstall: clean
 	@rm ${libdir}/lib${pname}.so
 	@rm ${includedir}/fmalloc.h
